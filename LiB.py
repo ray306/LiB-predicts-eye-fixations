@@ -18,7 +18,7 @@ import numpy as np
 @dataclass
 class model():
     corpus_train: List = field(repr=False)
-    corpus_test: List = field(repr=False)
+    corpus_test: List = field(default=None, repr=False)
     lexicon: Union[structures.TrieList, list, None] = field(default=None, repr=False)
 
     life: int = 10
@@ -40,6 +40,8 @@ class model():
         self.to_mem = set()
         self.logs = {'reward_lists': [], 'eval_index': [], 'time_cost': [], 'note': None}
 
+        if self.corpus_test is None:
+            self.corpus_test = self.corpus_train
         if self.lexicon is None:
             self.lexicon = model.create_lexicon()
             self.preload(self.corpus_train[0])
@@ -438,38 +440,14 @@ class model():
         else:  
             return set(accumulate([len(c) for c in chunks]))
 
-    def show_result(self, article_raw, article, decompose=False):
-        chunk_pos = show_reading(article, decompose=decompose)
-        chunk_pos_0 = set(accumulate([len(c) for sent in article_raw for c in sent]))
-
-
-        doc = ''.join(article)
-        chunk_pos_0, chunk_pos = [0] + sorted(chunk_pos_0),[0] + sorted(chunk_pos)
-
-        i, j = 0, 0
-        li_0, li_1 = [], []
-        while i < len(chunk_pos_0) and j < len(chunk_pos):
-            if chunk_pos_0[i] < chunk_pos[j]:
-                li_0.append(doc[chunk_pos_0[i-1]: chunk_pos_0[i]])
-                i += 1
-            elif chunk_pos_0[i] > chunk_pos[j]:
-                li_1.append(doc[chunk_pos[j-1]: chunk_pos[j]])
-                j += 1
-            else:
-                li_0.append(doc[chunk_pos_0[i-1]: chunk_pos_0[i]])
-                li_1.append(doc[chunk_pos[j-1]: chunk_pos[j]])
-
-                li_0.append('\t')
-                li_1.append('\t')
-                if len(li_0) > 12 and len(li_1) > 12:
-                    print(' '.join(li_0))
-                    print(' '.join(li_1))
-                    print()
-                    li_0, li_1 = [], []
-                i += 1
-                j += 1
+    def show_result(self, article_raw, decompose=False):
+        article, article_raw = self.extract_article(article_raw, with_joined=True)
+        for sent, sent_raw in zip(article, article_raw):
+            print('|'.join(sent_raw))
+            print('|'.join(self.show_reading([sent],return_chunks=True)))
+            print()
                 
-    def demo(self, article_raw, article, decompose=False, section=(0,-1)):
+    def demo(self, article_raw, decompose=False, section=(0,-1)):
         onset, end = section
         count = 0
         for chunk_i in range(999):
@@ -480,7 +458,27 @@ class model():
 
             count += len(article_raw[chunk_i])
 
-        show_result(article_raw[chunk_i_0: chunk_i], article[onset:end], decompose=decompose)
+        self.show_result(article_raw[chunk_i_0: chunk_i], decompose=decompose)
+
+    @classmethod
+    def create_corpus(cls, raw_corpus):  
+        corpus = []
+        if isinstance(raw_corpus, list):
+            for l in raw_corpus:
+                corpus.append([w+' ' for w in l.replace('\n','').split(' ')])
+        elif isinstance(raw_corpus, str):
+            if raw_corpus.endswith('.txt'):
+                with open(raw_corpus) as f: 
+                    for l in f.readlines():
+                        corpus.append([w+' ' for w in l.replace('\n','').split(' ')])
+            else:
+                for l in raw_corpus.split('\n'):
+                    corpus.append([w+' ' for w in l.split(' ')])
+
+        else:
+            raise Exception('The parameter "raw_corpus" should be a str or a list.')
+
+        return corpus
                 
     @classmethod
     def create_lexicon(cls, lexicon_content=[]):  
