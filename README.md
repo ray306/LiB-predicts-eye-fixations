@@ -1,7 +1,7 @@
 # LiB-predicts-eye-fixations
 
 #### Anaylsis code
-See `LiB_evaluation_on_GECO.ipynb`. 
+See `[Open It] LiB_evaluation_on_GECO.ipynb`. 
 
 #### The LiB model code
 `LiB.py` is the main script of the LiB model. It depends on `structures.py`, which defines the basic data structure of LiB. 
