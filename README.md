@@ -24,9 +24,13 @@ Since the file size limitation of Github, the pre-processed large corpora (COCA 
 
 ## Quick tutorial
 ![image](https://user-images.githubusercontent.com/1559890/134485015-54208a26-852c-439c-9152-8150ae44d4d6.png)
+--
 ![image](https://user-images.githubusercontent.com/1559890/134485184-acf9dd51-c1bf-439c-bc4e-40ef2380d913.png)
+--
 ![image](https://user-images.githubusercontent.com/1559890/134485407-8022f636-c1c0-4ebe-9f75-d19ba9d0a657.png)
+--
 ![image](https://user-images.githubusercontent.com/1559890/134485253-dc77ae10-7be7-4d7a-a447-00e209f3bbd1.png)
+--
 ![image](https://user-images.githubusercontent.com/1559890/134485282-42c9812e-f71a-4c86-9dac-5ba73964a706.png)
 
 
