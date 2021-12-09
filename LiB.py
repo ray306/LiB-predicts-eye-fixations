@@ -468,7 +468,7 @@ class model():
                 corpus.append([w+' ' for w in l.replace('\n','').split(' ')])
         elif isinstance(raw_corpus, str):
             if raw_corpus.endswith('.txt'):
-                with open(raw_corpus) as f: 
+                with open(raw_corpus, encoding='utf-8') as f: 
                     for l in f.readlines():
                         corpus.append([w+' ' for w in l.replace('\n','').split(' ')])
             else:
