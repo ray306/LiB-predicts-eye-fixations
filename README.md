@@ -1,5 +1,5 @@
 The **online demo** of LiB is here:
-https://hub.gke2.mybinder.org/user/ray306-lib_demo-2aracalt/doc/workspaces/auto-8/tree/Quick_Demo.ipynb
+https://hub-binder.mybinder.ovh/user/ray306-lib_demo-qsr3qu0q/doc/tree/Quick_Demo.ipynb
 You can run the Jupyter notebook to see the segmentation result.
 
 ---
